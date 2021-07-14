@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { DataService } from '../shared/data.service';
 import { UserComponent } from './user.component';
 import { UserService } from './user.service';
 
@@ -25,14 +26,12 @@ describe('UserComponent', () => {
   });
 
   it('should use the user name from the service', () => {
-    component = fixture.componentInstance;
     let userService = fixture.debugElement.injector.get(UserService);
     fixture.detectChanges();
     expect(userService.user.name).toEqual(component.user.name);
   });
 
   it('should display the user name if user is logged in', () => {
-    component = fixture.componentInstance;
     component.isLoggedIn = true;
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
@@ -40,9 +39,15 @@ describe('UserComponent', () => {
   });
 
   it('shouldn\'t display the user name if user is not logged in', () => {
-    component = fixture.componentInstance;
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('p').textContent).not.toContain(component.user.name);
   });
+
+  it('shouldn\'t fetch data successfully if not called asynchronously', () => {
+    let dataService = fixture.debugElement.injector.get(DataService);
+    let spy = spyOn(dataService, 'getDetails').and.returnValue(Promise.resolve('Data'));
+    fixture.detectChanges();
+    expect(component.data).toBe(undefined);
+  })
 });
