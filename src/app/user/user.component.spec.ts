@@ -28,5 +28,7 @@ describe('UserComponent', () => {
     component = fixture.componentInstance;
     let userService = fixture.debugElement.injector.get(UserService);
     expect(userService.user.name).toEqual(component.user.name);
-  })
+  });
+
+  it('should display the user name if user is logged in')
 });
