@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserComponent } from './user.component';
+import { UserService } from './user.service';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -8,9 +9,9 @@ describe('UserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserComponent ]
+      declarations: [UserComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -22,4 +23,10 @@ describe('UserComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should use the user name from the service', () => {
+    component = fixture.componentInstance;
+    let userService = fixture.debugElement.injector.get(UserService);
+    expect(userService.user.name).toEqual(component.user.name);
+  })
 });
